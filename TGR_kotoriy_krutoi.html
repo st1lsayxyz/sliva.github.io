@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGR Retail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern Premium Design Token Matrix */
+        :root[data-theme="dark"] {
+            --bg-base: #060709;
+            --bg-canvas: #0d0f14;
+            --bg-card: rgba(18, 22, 31, 0.45);
+            --bg-pill: rgba(255, 255, 255, 0.03);
+            --text-main: #f5f5f7;
+            --text-secondary: #86868b;
+            --border-primary: rgba(255, 255, 255, 0.05);
+            --border-secondary: rgba(255, 255, 255, 0.12);
+            --accent: #54B948;
+            --accent-glow: rgba(84, 185, 72, 0.22);
+            --accent-bg-dim: rgba(84, 185, 72, 0.07);
+            --header-blur: rgba(6, 7, 9, 0.4);
+            --btn-text: #000000;
+            --btn-bg: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.75);
+            --grid-color: rgba(255, 255, 255, 0.015);
+        }
+
+        :root[data-theme="light"] {
+            --bg-base: #f5f5f7;
+            --bg-canvas: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.65);
+            --bg-pill: rgba(0, 0, 0, 0.025);
+            --text-main: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --border-primary: rgba(0, 0, 0, 0.04);
+            --border-secondary: rgba(0, 0, 0, 0.1);
+            --accent: #439d38;
+            --accent-glow: rgba(67, 157, 56, 0.18);
+            --accent-bg-dim: rgba(67, 157, 56, 0.06);
+            --header-blur: rgba(255, 255, 255, 0.4);
+            --btn-text: #ffffff;
+            --btn-bg: #000000;
+            --overlay-bg: rgba(245, 245, 247, 0.75);
+            --grid-color: rgba(0, 0, 0, 0.015);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none !important; /* Hide native cursor for premium fluid trail */
+        }
+
+        html, body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Technical Background Grid Matrix Overlay */
+        .bg-grid-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Ambient Dynamic Flow Backdrop */
+        #ambient-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            will-change: left, top;
+        }
+
+        /* Apple Aesthetic High-Fidelity Custom Cursor */
+        #custom-cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, border 0.4s;
+            will-change: left, top;
+        }
+
+        /* Header Layout Styling */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: var(--header-blur);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.6px;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* Theme Toggle Mechanism Styles */
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            background: var(--bg-pill);
+            border: 1px solid var(--border-primary);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .theme-toggle-btn:hover {
+            border-color: var(--border-secondary);
+            transform: scale(1.05);
+        }
+
+        /* Hero Apple Presentation */
+        .hero-layer {
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Premium Apple Text-Shimmer Mask Tracking */
+        .hero-layer h1 {
+            font-size: 84px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #ffffff 30%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: appleFadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        :root[data-theme="light"] .hero-layer h1 {
+            background: linear-gradient(180deg, #1d1d1f 30%, #86868b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-layer h1 span {
+            background: linear-gradient(90deg, var(--accent), #7de272);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-layer p {
+            font-size: 22px;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin-bottom: 48px;
+            line-height: 1.5;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: appleFadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+
+        .btn-premium {
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 16px 36px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: -0.1px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: appleFadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .btn-premium:hover {
+            transform: scale(1.02) translateY(-2px);
+        }
+
+        /* -------------------------------------------
+           Smooth Kinetic Infinite Photo Gallery Ticker (Optimized Larger Layout)
+           ------------------------------------------- */
+        .ticker-viewport {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            overflow: hidden;
+            padding: 40px 0;
+            z-index: 5;
+        }
+
+        .ticker-track {
+            display: flex;
+            width: max-content;
+            animation: infiniteScroll 45s linear infinite;
+        }
+
+        .ticker-viewport:hover .ticker-track {
+            animation-play-state: paused;
+        }
+
+        .gallery-item {
+            width: 550px;   /* Noticeably wider to highlight product details */
+            height: 380px;  /* Tall framing layout */
+            margin: 0 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.4s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--border-secondary);
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+        }
+
+        /* Pure Image Framework Elements */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+            transition: filter 0.5s ease;
+        }
+
+        @keyframes infiniteScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Catalog Layout Grid System */
+        .main-stage {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 40px 140px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-headline {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1.2px;
+            margin-bottom: 64px;
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
+        }
+
+        /* Ultra Premium Product Framework Node */
+        .premium-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 32px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .premium-card:hover {
+            border-color: var(--border-secondary);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* High Quality Lighting Engine Core Visualizer Block */
+        .card-visual-engine {
+            width: 100%;
+            height: 250px;
+            background: var(--bg-canvas);
+            border-radius: 22px;
+            border: 1px solid var(--border-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Custom physical micro image anti-glare reflection tracing */
+        .card-shine-tracker {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .card-content-matrix {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .node-pill-strip {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .node-pill {
+            background: var(--accent-bg-dim);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(84, 185, 72, 0.1);
+        }
+
+        .node-pill.secondary {
+            background: var(--bg-pill);
+            color: var(--text-secondary);
+            border-color: var(--border-primary);
+        }
+
+        .node-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.6px;
+            margin-bottom: 10px;
+        }
+
+        .node-description {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            flex-grow: 1;
+        }
+
+        .node-action-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .node-valuation {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+        .node-valuation span { color: var(--accent); font-size: 14px; margin-right: 2px; font-weight: 600; }
+
+        .node-action-btn {
+            background: var(--bg-pill);
+            border: 1px solid var(--border-primary);
+            color: var(--text-main);
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none; /* Let parent click event capture cleanly */
+        }
+
+        .premium-card:hover .node-action-btn {
+            background: var(--text-main);
+            color: var(--bg-base);
+            border-color: var(--text-main);
+            transform: scale(1.03);
+        }
+
+        /* -------------------------------------------
+           Apple-Style Immersive Window Overlay (Modal)
+           ------------------------------------------- */
+        .window-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .window-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+        }
+
+        .premium-window {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            width: 92%;
+            max-width: 720px;
+            border-radius: 40px;
+            padding: 48px;
+            position: relative;
+            transform: scale(0.9) translateY(30px);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 40px 90px rgba(0,0,0,0.5);
+        }
+
+        .window-overlay.active .premium-window {
+            transform: scale(1) translateY(0);
+        }
+
+        .window-close {
+            position: absolute;
+            top: 28px;
+            right: 28px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-pill);
+            border: 1px solid var(--border-primary);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .window-close:hover {
+            background: var(--text-main);
+            color: var(--bg-base);
+            transform: scale(1.05);
+        }
+
+        .window-gallery {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-canvas);
+            border-radius: 24px;
+            border: 1px solid var(--border-primary);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .window-title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            margin-bottom: 14px;
+        }
+
+        .window-desc {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .window-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-primary);
+            padding-top: 28px;
+        }
+
+        .btn-checkout {
+            background: var(--accent);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 22px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+        }
+
+        .btn-checkout:hover {
+            transform: scale(1.02) translateY(-1px);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* Keyframes Logic */
+        @keyframes appleFadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Animation Keyframes */
+        @keyframes scrollFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollSlideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animated Gradient Background */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .gradient-animated-bg {
+            background: linear-gradient(-45deg, var(--accent), rgba(84, 185, 72, 0.1), var(--bg-card), rgba(84, 185, 72, 0.05));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        /* Scroll Animation Trigger */
+        .scroll-animate {
+            opacity: 0;
+            animation: scrollFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .scroll-animate-left {
+            opacity: 0;
+            animation: scrollSlideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Product Rating Stars */
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            width: 16px;
+            height: 16px;
+            color: var(--accent);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rating-count {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Featured Product Badge */
+        .featured-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--accent);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 25px rgba(84, 185, 72, 0.3);
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(84, 185, 72, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(84, 185, 72, 0.6); }
+        }
+
+        /* Enhanced Card Hover Effects */
+        .premium-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 32px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.8s ease;
+            pointer-events: none;
+        }
+
+        .premium-card:hover::before {
+            left: 100%;
+        }
+
+        .premium-card:hover {
+            border-color: var(--border-secondary);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 40px rgba(84, 185, 72, 0.15);
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        /* Card Visual Engine Enhanced */
+        .card-visual-engine {
+            width: 100%;
+            height: 250px;
+            background: var(--bg-canvas);
+            border-radius: 22px;
+            border: 1px solid var(--border-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
+            background: linear-gradient(135deg, var(--bg-canvas) 0%, rgba(84, 185, 72, 0.05) 100%);
+        }
+
+        .premium-card:hover .card-visual-engine {
+            box-shadow: 0 0 30px rgba(84, 185, 72, 0.2);
+        }
+
+        /* ============================================
+           STATISTICS SECTION STYLES
+           ============================================ */
+        .stats-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, rgba(84, 185, 72, 0.05) 0%, transparent 100%);
+            border-top: 1px solid var(--border-primary);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .stats-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-secondary);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(84, 185, 72, 0.15);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           TESTIMONIALS CAROUSEL STYLES
+           ============================================ */
+        .testimonials-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonials-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .testimonials-carousel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--border-secondary);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: var(--accent);
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border-primary);
+            padding-top: 16px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #7de272);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+        }
+
+        .author-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .author-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 2px 0 0 0;
+        }
+
+        /* ============================================
+           FAQ ACCORDION STYLES
+           ============================================ */
+        .faq-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, rgba(84, 185, 72, 0.03) 0%, transparent 100%);
+            border-top: 1px solid var(--border-primary);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .faq-item:hover {
+            border-color: var(--border-secondary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            color: var(--accent);
+        }
+
+        .faq-toggle {
+            font-size: 24px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            color: var(--accent);
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0 24px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 24px 24px 24px;
+        }
+
+        .faq-answer-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* ============================================
+           NEWSLETTER SIGNUP STYLES
+           ============================================ */
+        .newsletter-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .newsletter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--accent) 0%, rgba(84, 185, 72, 0.8) 100%);
+            border-radius: 32px;
+            padding: 64px 40px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(84, 185, 72, 0.25);
+        }
+
+        .newsletter-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .newsletter-desc {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1d1d1f;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .newsletter-btn {
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 15px;
+        }
+
+        .newsletter-btn:hover {
+            background: white;
+            color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* ============================================
+           FOOTER STYLES
+           ============================================ */
+        footer {
+            background: var(--bg-canvas);
+            border-top: 1px solid var(--border-primary);
+            padding: 60px 40px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-primary);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-pill);
+            border: 1px solid var(--border-primary);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .footer-social a:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        /* ============================================
+           ADDITIONAL ANIMATIONS
+           ============================================ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Social Proof Badge */
+        .social-proof {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            z-index: 999;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-proof span {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ============================================
+           SCROLL PROGRESS BAR
+           ============================================ */
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), #7de272);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        /* ============================================
+           TEXT REVEAL ANIMATION
+           ============================================ */
+        @keyframes textReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) rotateX(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .text-reveal {
+            perspective: 1000px;
+        }
+
+        .text-reveal-char {
+            display: inline-block;
+            opacity: 0;
+            animation: textReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* ============================================
+           FEATURES GRID WITH ICONS
+           ============================================ */
+        .features-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, rgba(84, 185, 72, 0.02) 0%, transparent 100%);
+            border-top: 1px solid var(--border-primary);
+        }
+
+        .features-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.08;
+        }
+
+        .feature-card:hover {
+            border-color: var(--border-secondary);
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(84, 185, 72, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           PRODUCT COMPARISON TABLE
+           ============================================ */
+        .comparison-section {
+            padding: 80px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .comparison-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .comparison-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--accent) 0%, rgba(84, 185, 72, 0.8) 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+
+        .comparison-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .comparison-table td:first-child {
+            color: var(--text-main);
+            font-weight: 600;
+            background: var(--bg-canvas);
+            width: 25%;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(84, 185, 72, 0.05);
+        }
+
+        .check-mark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .x-mark {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-weight: 700;
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           PARTNER LOGOS SECTION
+           ============================================ */
+        .partners-section {
+            padding: 60px 40px;
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid var(--border-primary);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .partners-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .partners-label {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+        }
+
+        .partner-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: -0.5px;
+        }
+
+        .partner-logo:hover {
+            border-color: var(--border-secondary);
+            color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(84, 185, 72, 0.15);
+        }
+
+        /* ============================================
+           BACK TO TOP BUTTON
+           ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 998;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(84, 185, 72, 0.3);
+            font-size: 24px;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: 0 15px 40px rgba(84, 185, 72, 0.5);
+        }
+
+        /* ============================================
+           PARTICLE SYSTEM
+           ============================================ */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ============================================
+           CTA BUTTON ENHANCEMENTS
+           ============================================ */
+        .btn-cta-enhanced {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cta-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            pointer-events: none;
+        }
+
+        .btn-cta-enhanced:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ============================================
+           GRADIENT SHIFTS
+           ============================================ */
+        @keyframes gradientShift2 {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .gradient-shifting {
+            background-size: 400% 400%;
+            animation: gradientShift2 8s ease infinite;
+        }
+
+        /* ============================================
+           PERFORMANCE BARS
+           ============================================ */
+        .perf-bar-container {
+            margin-bottom: 24px;
+        }
+
+        .perf-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .perf-bar-label-name {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .perf-bar-label-value {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .perf-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-canvas);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .perf-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7de272);
+            border-radius: 10px;
+            transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 16px 24px; }
+            .hero-layer h1 { font-size: 48px; letter-spacing: -1.5px; }
+            .main-stage { padding: 0 24px 100px 24px; }
+            .premium-window { padding: 32px; border-radius: 32px; }
+            .window-gallery { height: 220px; }
+            #custom-cursor, #ambient-glow, .bg-grid-layer { display: none !important; }
+            * { cursor: auto !important; }
+            .gallery-item { width: 340px; height: 240px; margin: 0 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+
+    <!-- Elite Trailing Visual Engines -->
+    <div class="bg-grid-layer"></div>
+    <div id="custom-cursor"></div>
+    <div id="ambient-glow"></div>
+
+    <header>
+        <div class="logo">TGR<span>.</span></div>
+        <div class="nav-controls">
+            <!-- Theme Engine Switch Command Action Point -->
+            <button class="theme-toggle-btn" id="themeEngineTrigger" aria-label="Toggle Interface Theme">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero-layer">
+        <h1>TGR<span>. Retail Solutions</span></h1>
+        <p>Affordable retail for everyone.</p>
+        <a href="#gallery" class="btn-premium">View Our Production</a>
+        <a href="#photo" class="btn-premium">View Our Gallery</a>
+    </section>
+
+    <section class="hero-layer gradient-animated-bg" style="min-height: 85vh;">
+        <h1>Solutions that you can<span> trust.</span></h1>
+        <p>Take a look at our products.</p>
+        
+        <!-- HIGH QUALITY SMOOTH MOTION INTERACTIVE GALLERY SYSTEM (CLEAN TEXTLESS IMAGES) -->
+    </section>
+            <div class="ticker-viewport" id="photo">
+                <!-- 
+                
+                https://ibb.co/Tx6vFc3C
+                https://ibb.co/93cZc2Ln
+                https://ibb.co/Pz4wFxfb
+                https://ibb.co/1Y4RccTC
+
+                -->
+            <div class="ticker-track" id="galleryTickerTrack">
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/tTgmWBrd/Frame-64.png" alt="idk why but image did not load :( )">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/CsmPmvZB/5-BF601-D6-37-DD-4-BDA-8069-5746473-B3-FC6.png" alt="sco2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/Qjnrp91q/photo-2026-05-26-19-56-30.jpg" alt="svo">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/SDZVSSBk/Frame-57.png" alt="guzeevasvo">
+                </div>
+            </div>
+        </div>
+
+    <main class="main-stage" id="gallery">
+        <h2 class="section-headline">Our Production</h2>
+        
+        <div class="grid-container">
+            
+            <!-- Suite Component 1 - Featured -->
+            <div class="premium-card scroll-animate" data-title="FastLane Checkouts V2.5" data-tag="Retail" data-badge="Beta" data-price="~" data-desc="In development." style="position: relative;">
+                <div class="featured-badge">⭐ FEATURED</div>
+                <div class="card-visual-engine">
+                    <div class="card-shine-tracker"></div>
+                    [ SELFSERV2.0 ]
+                </div>
+                <div class="card-content-matrix">
+                    <div class="product-rating">
+                        <div class="stars">
+                            <!-- <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span> -->
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                        </div>
+                        <span class="rating-count">(0 reviews)</span>
+                    </div>
+                    <div class="node-pill-strip">
+                        <span class="node-pill">Retail</span>
+                        <span class="node-pill secondary">Beta</span>
+                    </div>
+                    <h3 class="node-title">FastLane Checkouts V2.5</h3>
+                    <p class="node-description">In development.</p>
+                    <div class="node-action-strip">
+                        <div class="node-valuation"><span>R$</span>~</div>
+                        <button class="node-action-btn">Take a look</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card scroll-animate" data-title="AdvanceSound System" data-tag="Other" data-badge="Beta" data-price="~" data-desc="In development." style="position: relative;">
+                <div class="card-visual-engine">
+                    <div class="card-shine-tracker"></div>
+                    [ ADVSOUNDV1.0 ]
+                </div>
+                <div class="card-content-matrix">
+                    <div class="product-rating">
+                        <div class="stars">
+                            <!-- <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span> -->
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                        </div>
+                        <span class="rating-count">(0 reviews)</span>
+                    </div>
+                    <div class="node-pill-strip">
+                        <span class="node-pill">Other</span>
+                        <span class="node-pill secondary">Beta</span>
+                    </div>
+                    <h3 class="node-title">AdvanceSound System</h3>
+                    <p class="node-description">In development.</p>
+                    <div class="node-action-strip">
+                        <div class="node-valuation"><span>R$</span>~</div>
+                        <button class="node-action-btn">Take a look</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suite Component 2 
+            <div class="premium-card scroll-animate" style="animation-delay: 0.15s;" data-title="POS Operational Panel" data-tag="UI/UX" data-badge="Fluid Layout" data-price="350" data-desc="A responsive layout matrix engineered cleanly to interface with dynamic clerk commands, secure lockouts, register drawer integration, and live analytical webhooks. Optimized to reduce framerate latency.">
+                <div class="card-visual-engine">
+                    <div class="card-shine-tracker"></div>
+                    [ Point of Sale System GUI Interface ]
+                </div>
+                <div class="card-content-matrix">
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="color: var(--text-secondary);">★</span>
+                        </div>
+                        <span class="rating-count">(96 reviews)</span>
+                    </div>
+                    <div class="node-pill-strip">
+                        <span class="node-pill">Interface Package</span>
+                        <span class="node-pill secondary">Decoupled Lua</span>
+                    </div>
+                    <h3 class="node-title">POS Operational Panel</h3>
+                    <p class="node-description">A responsive layout matrix engineered cleanly to interface with dynamic clerk commands, secure lockouts, and live analytics hooks.</p>
+                    <div class="node-action-strip">
+                        <div class="node-valuation"><span>R$</span>350</div>
+                        <button class="node-action-btn">Inspect</button>
+                    </div>
+                </div>
+            </div>
+                -->
+            <!-- Suite Component 3
+            <div class="premium-card scroll-animate" style="animation-delay: 0.3s;" data-title="Modular Structural Set" data-tag="Architecture" data-badge="PBR Textures" data-price="600" data-desc="Strict polygon budgets, custom baking texture maps, and expandable row models built flawlessly to support heavy consumer server traffic paths. Drag-and-drop structural node logic included.">
+                <div class="card-visual-engine">
+                    <div class="card-shine-tracker"></div>
+                    [ High Optimization Environment Prop Rig ]
+                </div>
+                <div class="card-content-matrix">
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-count">(156 reviews)</span>
+                    </div>
+                    <div class="node-pill-strip">
+                        <span class="node-pill">Environment Layout</span>
+                        <span class="node-pill secondary">Low Poly Count</span>
+                    </div>
+                    <h3 class="node-title">Modular Structural Set</h3>
+                    <p class="node-description">Strict polygon budgets, custom baking texture maps, and expandable row models built flawlessly to support heavy consumer server traffic paths.</p>
+                    <div class="node-action-strip">
+                        <div class="node-valuation"><span>R$</span>600</div>
+                        <button class="node-action-btn">Inspect</button>
+                    </div>
+                </div>
+            </div>
+        -->
+        </div>
+    </main>
+
+    <!-- STATISTICS SECTION -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card scroll-animate">
+                <div class="stat-number counter" data-target="placeholder">0</div>
+                <div class="stat-label">placeholder</div>
+            </div>
+            <div class="stat-card scroll-animate" style="animation-delay: 0.1s;">
+                <div class="stat-number counter" data-target="placeholder">0</div>
+                <div class="stat-label">placeholder</div>
+            </div>
+            <div class="stat-card scroll-animate" style="animation-delay: 0.2s;">
+                <div class="stat-number counter" data-target="placeholder">0</div>
+                <div class="stat-label">placeholder</div>
+            </div>
+            <div class="stat-card scroll-animate" style="animation-delay: 0.3s;">
+                <div class="stat-number counter" data-target="placeholder">0</div>
+                <div class="stat-label">placeholder</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="testimonials-container">
+            <div class="testimonials-header scroll-animate">
+                <h2 class="section-headline">What Our Customers Say</h2>
+                <p style="color: var(--text-secondary); font-size: 18px; margin-top: 16px;">Trusted by retailers worldwide</p>
+            </div>
+            <div class="testimonials-carousel">
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"FastLane Checkouts system looks nice and works perfectly!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MJ</div>
+                        <div class="author-info">
+                            <h4>Romat Joshh</h4>
+                            <p>CEO, Romat shopping.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate" style="animation-delay: 0.15s;">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"я перепродаю байпас дрс и сгр на плеерке❤️❤️"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AB</div>
+                        <div class="author-info">
+                            <h4>Пользователь Плеерок</h4>
+                            <p>ц</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate" style="animation-delay: 0.3s;">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"i recommend it because yes!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SK</div>
+                        <div class="author-info">
+                            <h4>Татьяна Ким</h4>
+                            <p>Operations Director, Wildberries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section">
+        <div class="features-container">
+            <div class="features-header scroll-animate">
+                <h2 class="section-headline">Why Choose TGR</h2>
+                <p style="color: var(--text-secondary); font-size: 18px; margin-top: 16px;">Industry-leading features and benefits</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-desc">Optimized performance with zero latency. Load times under 100ms for seamless user experience.</p>
+                </div>
+                <div class="feature-card scroll-animate" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Enterprise Security</h3>
+                    <p class="feature-desc">Military-grade encryption and compliance with international security standards for your peace of mind.</p>
+                </div>
+                <div class="feature-card scroll-animate" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Precision Targeting</h3>
+                    <p class="feature-desc">Advanced analytics and AI-powered insights to maximize your retail performance and ROI.</p>
+                </div>
+                <div class="feature-card scroll-animate" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">Global Reach</h3>
+                    <p class="feature-desc">Support for 150+ countries and 50+ currencies. Scale your business worldwide effortlessly.</p>
+                </div>
+                <div class="feature-card scroll-animate" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p class="feature-desc">Dedicated support team available round the clock via chat, email, and phone for instant assistance.</p>
+                </div>
+                <div class="feature-card scroll-animate" style="animation-delay: 0.5s;">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Growth Focused</h3>
+                    <p class="feature-desc">Built-in tools for scaling your business with automated workflows and intelligent optimization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON SECTION -->
+    <section class="comparison-section">
+        <div class="comparison-container">
+            <div class="comparison-header scroll-animate">
+                <h2 class="section-headline">Product Comparison</h2>
+                <p style="color: var(--text-secondary); font-size: 18px; margin-top: 16px;">Find the perfect solution for your retail needs</p>
+            </div>
+            <div class="comparison-table scroll-animate">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>FastLane Checkouts</th>
+                            <th>POS Panel</th>
+                            <th>Modular Set</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Setup Time</td>
+                            <td><span class="check-mark">✓</span> 1 hour</td>
+                            <td><span class="check-mark">✓</span> 2 hours</td>
+                            <td><span class="check-mark">✓</span> 4 hours</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Support</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Custom Branding</td>
+                            <td><span class="x-mark">—</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td><span class="x-mark">—</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Multi-Store Support</td>
+                            <td><span class="x-mark">—</span></td>
+                            <td><span class="x-mark">—</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Analytics Dashboard</td>
+                            <td><span class="check-mark">✓</span> Basic</td>
+                            <td><span class="check-mark">✓</span> Advanced</td>
+                            <td><span class="check-mark">✓</span> Pro</td>
+                        </tr>
+                        <tr>
+                            <td>Priority Support</td>
+                            <td><span class="x-mark">—</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td><strong>R$ 450</strong></td>
+                            <td><strong>R$ 350</strong></td>
+                            <td><strong>R$ 600</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNERS SECTION -->
+    <section class="partners-section">
+        <div class="partners-container">
+            <div class="partners-label">Trusted by Leading Brands</div>
+            <div class="partners-grid">
+                <div class="partner-logo scroll-animate">romat shoping 😊💕</div>
+                <div class="partner-logo scroll-animate" style="animation-delay: 0.1s;">drs shopping 😊❤️</div>
+                <div class="partner-logo scroll-animate" style="animation-delay: 0.2s;">pilulian robax 😁❤️</div>
+                <div class="partner-logo scroll-animate" style="animation-delay: 0.3s;">sliva shopping 😊❤️</div>
+                <div class="partner-logo scroll-animate" style="animation-delay: 0.4s;">xeno 👌💕</div>
+                <div class="partner-logo scroll-animate" style="animation-delay: 0.5s;">taha 🤬😡</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="faq-header scroll-animate">
+                <h2 class="section-headline">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-item scroll-animate">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="faq-answer-text">We accept all major payment methods including credit cards, digital wallets, bank transfers, and installment plans. All transactions are secure and encrypted.</p>
+                </div>
+            </div>
+            <div class="faq-item scroll-animate" style="animation-delay: 0.1s;">
+                <div class="faq-question">
+                    <span>Is there technical support available?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="faq-answer-text">Yes! We provide 24/7 technical support via email, phone, and live chat. Our average response time is less than 2 hours for critical issues.</p>
+                </div>
+            </div>
+            <div class="faq-item scroll-animate" style="animation-delay: 0.2s;">
+                <div class="faq-question">
+                    <span>Can I customize the products for my store?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="faq-answer-text">Absolutely! All our products are highly customizable. We have a dedicated team to help you tailor solutions to your specific needs and branding.</p>
+                </div>
+            </div>
+            <div class="faq-item scroll-animate" style="animation-delay: 0.3s;">
+                <div class="faq-question">
+                    <span>What is your return policy?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="faq-answer-text">We offer a 30-day money-back guarantee if you're not completely satisfied. No questions asked. We also provide extended warranty options for all products.</p>
+                </div>
+            </div>
+            <div class="faq-item scroll-animate" style="animation-delay: 0.4s;">
+                <div class="faq-question">
+                    <span>How do I get started?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="faq-answer-text">Getting started is easy! Click on any product, review the details, and select "Acquire Asset". Our onboarding team will guide you through the entire setup process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION -->
+    <section class="newsletter-section">
+        <div class="newsletter-container">
+            <h2 class="newsletter-title">Stay Updated</h2>
+            <p class="newsletter-desc">Get exclusive deals and latest updates delivered to your inbox</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Products</h3>
+                <ul>
+                    <li><a href="#gallery">FastLane Checkouts</a></li>
+                    <li><a href="#gallery">POS Operational Panel</a></li>
+                    <li><a href="#gallery">Modular Structural Set</a></li>
+                    <li><a href="#gallery">View All</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">© 2026 TGR Retail. All rights reserved.</div>
+            <div class="footer-social">
+                <a href="#" title="Twitter">𝕏</a>
+                <a href="#" title="LinkedIn">in</a>
+                <a href="#" title="GitHub">⚙</a>
+                <a href="#" title="Discord">💬</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Social Proof Badge -->
+    <!--<div class="social-proof" id="socialProofBadge">
+        <span>47</span> people bought in the last hour
+    </div>
+        -->
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTopBtn">↑</div>
+
+    <!-- Apple-Style Premium Modal Window Element -->
+    <div class="window-overlay" id="productWindowOverlay">
+        <div class="premium-window">
+            <button class="window-close" id="closeWindowTrigger" aria-label="Close details window">&times;</button>
+            <div class="window-gallery" id="windowAssetPreview">[ Asset Visual Engine Render ]</div>
+            <div class="node-pill-strip" style="margin-bottom: 20px;">
+                <span class="node-pill" id="windowAssetTag">Tag</span>
+                <span class="node-pill secondary" id="windowAssetBadge">Feature</span>
+            </div>
+            <h3 class="window-title" id="windowAssetTitle">Asset Title</h3>
+            <p class="window-desc" id="windowAssetDesc">Detailed specification documentation node content.</p>
+            <div class="window-footer">
+                <div class="node-valuation" style="font-size: 26px;"><span style="font-size: 16px;">R$</span><span id="windowAssetPrice">0</span></div>
+                <button class="btn-checkout">Acquire Asset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Native Mechanical Motion Control Scripts -->
+    <script>
+        /* -------------------------------------------
+           1. Dynamic Light/Dark Theme Engine Config 
+           ------------------------------------------- */
+        const themeButton = document.getElementById('themeEngineTrigger');
+        const rootElement = document.documentElement;
+
+        themeButton.addEventListener('click', () => {
+            const currentTheme = rootElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            rootElement.setAttribute('data-theme', targetTheme);
+            
+            themeButton.innerHTML = targetTheme === 'dark' 
+                ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`
+                : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+        });
+
+        /* -------------------------------------------
+           2. Apple-Grade Spring Physics Cursor Trail Engine 
+           ------------------------------------------- */
+        const cursorPoint = document.getElementById('custom-cursor');
+        const glowPoint = document.getElementById('ambient-glow');
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        let currentCursorX = mouseX; let currentCursorY = mouseY;
+        let currentGlowX = mouseX; let currentGlowY = mouseY;
+
+        const cursorMassK = 0.14;
+        const glowMassK = 0.035; 
+
+        window.addEventListener('mousemove', (event) => {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+        });
+
+        function executeSpringPhysicsSimulationLoop() {
+            currentCursorX += (mouseX - currentCursorX) * cursorMassK;
+            currentCursorY += (mouseY - currentCursorY) * cursorMassK;
+            cursorPoint.style.left = `${currentCursorX}px`;
+            cursorPoint.style.top = `${currentCursorY}px`;
+
+            currentGlowX += (mouseX - currentGlowX) * glowMassK;
+            currentGlowY += (mouseY - currentGlowY) * glowMassK;
+            glowPoint.style.left = `${currentGlowX}px`;
+            glowPoint.style.top = `${currentGlowY}px`;
+
+            requestAnimationFrame(executeSpringPhysicsSimulationLoop);
+        }
+        requestAnimationFrame(executeSpringPhysicsSimulationLoop);
+
+        // Core Micro Interaction Scale Targets
+        function updateCursorTriggers() {
+            const interactiveNodes = document.querySelectorAll('button, a, .premium-card, .gallery-item');
+            interactiveNodes.forEach(node => {
+                node.removeEventListener('mouseenter', expandCursor);
+                node.removeEventListener('mouseleave', retractCursor);
+                node.addEventListener('mouseenter', expandCursor);
+                node.addEventListener('mouseleave', retractCursor);
+            });
+        }
+
+        function expandCursor() {
+            cursorPoint.style.width = '44px';
+            cursorPoint.style.height = '44px';
+            cursorPoint.style.backgroundColor = 'rgba(84, 185, 72, 0.15)';
+            cursorPoint.style.border = '1px solid var(--accent)';
+        }
+
+        function retractCursor() {
+            cursorPoint.style.width = '8px';
+            cursorPoint.style.height = '8px';
+            cursorPoint.style.backgroundColor = 'var(--text-main)';
+            cursorPoint.style.border = 'none';
+        }
+        
+        updateCursorTriggers();
+
+        /* -------------------------------------------
+           3. Inertial 3D Card Alignment Layer Matrix & Anti-Glare Tracker
+           ------------------------------------------- */
+        const suiteCards = document.querySelectorAll('.premium-card');
+        suiteCards.forEach(card => {
+            const shine = card.querySelector('.card-shine-tracker');
+            const visual = card.querySelector('.card-visual-engine');
+
+            card.addEventListener('mousemove', (e) => {
+                const boundingBox = card.getBoundingClientRect();
+                const relativeX = e.clientX - boundingBox.left;
+                const relativeY = e.clientY - boundingBox.top;
+
+                const midWidth = boundingBox.width / 2;
+                const midHeight = boundingBox.height / 2;
+
+                const calculationTiltX = ((midHeight - relativeY) / midHeight) * 5;
+                const calculationTiltY = ((relativeX - midWidth) / midWidth) * 5;
+
+                card.style.transform = `rotateX(${calculationTiltX}deg) rotateY(${calculationTiltY}deg) scale3d(1.015, 1.015, 1.015)`;
+                card.style.transition = 'transform 0.05s linear';
+
+                if(shine) {
+                    const visualBox = visual.getBoundingClientRect();
+                    const shineX = ((e.clientX - visualBox.left) / visualBox.width) * 100;
+                    const shineY = ((e.clientY - visualBox.top) / visualBox.height) * 100;
+                    shine.style.setProperty('--shine-x', `${shineX}%`);
+                    shine.style.setProperty('--shine-y', `${shineY}%`);
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        /* -------------------------------------------
+           4. Modal Window Controller Engine
+           ------------------------------------------- */
+        const modalOverlay = document.getElementById('productWindowOverlay');
+        const closeModalBtn = document.getElementById('closeWindowTrigger');
+        
+        const mTitle = document.getElementById('windowAssetTitle');
+        const mTag = document.getElementById('windowAssetTag');
+        const mBadge = document.getElementById('windowAssetBadge');
+        const mDesc = document.getElementById('windowAssetDesc');
+        const mPrice = document.getElementById('windowAssetPrice');
+        const mPreview = document.getElementById('windowAssetPreview');
+
+        suiteCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.getAttribute('data-title');
+                const tag = card.getAttribute('data-tag');
+                const badge = card.getAttribute('data-badge');
+                const desc = card.getAttribute('data-desc');
+                const price = card.getAttribute('data-price');
+                const visualText = card.querySelector('.card-visual-engine').textContent;
+
+                mTitle.textContent = title;
+                mTag.textContent = tag;
+                mBadge.textContent = badge;
+                mDesc.textContent = desc;
+                mPrice.textContent = price;
+                mPreview.textContent = visualText;
+
+                modalOverlay.classList.add('active');
+                updateCursorTriggers();
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+
+        /* -------------------------------------------
+           5. Infinite Dynamic Loop Ticker Node Injector
+           ------------------------------------------- */
+        const track = document.getElementById('galleryTickerTrack');
+        const originalContent = track.innerHTML;
+        track.innerHTML = originalContent + originalContent;
+        updateCursorTriggers();
+
+        /* -------------------------------------------
+           6. Scroll Animation Trigger Intersection Observer
+           ------------------------------------------- */
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate, .scroll-animate-left').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            scrollObserver.observe(el);
+        });
+
+        /* -------------------------------------------
+           7. Counter Animation Engine
+           ------------------------------------------- */
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // Trigger counters when stats section comes into view
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                        entry.target.classList.add('animated');
+                        animateCounters();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            statsObserver.observe(statsSection);
+        }
+
+        /* -------------------------------------------
+           8. FAQ Accordion Controller
+           ------------------------------------------- */
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        /* -------------------------------------------
+           9. Newsletter Subscription Handler
+           ------------------------------------------- */
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const input = newsletterForm.querySelector('.newsletter-input');
+                const email = input.value;
+                
+                if (email) {
+                    // Show success message
+                    const btn = newsletterForm.querySelector('.newsletter-btn');
+                    const originalText = btn.textContent;
+                    btn.textContent = '✓ Subscribed!';
+                    btn.style.background = 'rgba(255, 255, 255, 0.5)';
+                    
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        input.value = '';
+                        btn.textContent = originalText;
+                        btn.style.background = 'rgba(255, 255, 255, 0.2)';
+                    }, 3000);
+                }
+            });
+        }
+
+        /* -------------------------------------------
+           10. Social Proof Badge Randomizer
+           ------------------------------------------- */
+        function updateSocialProof() {
+            const badge = document.getElementById('socialProofBadge');
+            if (badge) {
+                const randomCount = Math.floor(Math.random() * (150 - 30 + 1)) + 30;
+                const span = badge.querySelector('span');
+                span.textContent = randomCount;
+            }
+        }
+
+        // Update social proof every 30 seconds
+        updateSocialProof();
+        setInterval(updateSocialProof, 30000);
+
+        /* -------------------------------------------
+           11. Floating Elements Animation
+           ------------------------------------------- */
+        function createFloatingElements() {
+            const hero = document.querySelector('.hero-layer.gradient-animated-bg');
+            if (hero) {
+                for (let i = 0; i < 3; i++) {
+                    const shape = document.createElement('div');
+                    shape.style.cssText = `
+                        position: absolute;
+                        width: ${Math.random() * 200 + 100}px;
+                        height: ${Math.random() * 200 + 100}px;
+                        background: radial-gradient(circle, rgba(84, 185, 72, 0.1) 0%, transparent 70%);
+                        border-radius: 50%;
+                        animation: float ${Math.random() * 4 + 5}s ease-in-out infinite;
+                        animation-delay: ${Math.random() * 2}s;
+                        pointer-events: none;
+                        z-index: 0;
+                    `;
+                    shape.style.left = Math.random() * 100 + '%';
+                    shape.style.top = Math.random() * 100 + '%';
+                    hero.appendChild(shape);
+                }
+            }
+        }
+        createFloatingElements();
+
+        /* -------------------------------------------
+           13. Scroll Progress Bar Engine
+           ------------------------------------------- */
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgressBar').style.width = scrollPercent + '%';
+        });
+
+        /* -------------------------------------------
+           14. Back to Top Button Controller
+           ------------------------------------------- */
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        /* -------------------------------------------
+           15. Text Reveal Animation for Hero
+           ------------------------------------------- */
+        function createTextReveal(selector) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                const text = element.textContent;
+                element.innerHTML = '';
+                element.classList.add('text-reveal');
+                
+                let delay = 0;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    const span = document.createElement('span');
+                    span.classList.add('text-reveal-char');
+                    span.textContent = char;
+                    span.style.animationDelay = (delay * 0.05) + 's';
+                    element.appendChild(span);
+                    if (char !== ' ') delay++;
+                }
+            });
+        }
+
+        // Apply text reveal to h1 in hero
+        createTextReveal('.hero-layer h1');
+
+        /* -------------------------------------------
+           16. Particle System Generator
+           ------------------------------------------- */
+        function createParticles() {
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 20 + 10 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(84, 185, 72, ${Math.random() * 0.3 + 0.1})`;
+                particle.style.borderRadius = '50%';
+                particle.style.animation = `float ${Math.random() * 8 + 5}s ease-in-out infinite`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                document.querySelector('.hero-layer.gradient-animated-bg')?.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        /* -------------------------------------------
+           17. Performance Bars Animation
+           ------------------------------------------- */
+        function animatePerformanceBars() {
+            const bars = document.querySelectorAll('.perf-bar-fill');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                        const width = entry.target.getAttribute('data-width') || '90';
+                        entry.target.style.width = width + '%';
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            bars.forEach(bar => observer.observe(bar));
+        }
+
+        /* -------------------------------------------
+           18. Smooth Scroll Parallax Effect
+           ------------------------------------------- */
+        window.addEventListener('scroll', () => {
+            const parallaxElements = document.querySelectorAll('[data-parallax]');
+            parallaxElements.forEach(element => {
+                const scrollPosition = window.scrollY;
+                const elementOffset = element.offsetTop;
+                const parallaxValue = (scrollPosition - elementOffset) * 0.5;
+                element.style.transform = `translateY(${parallaxValue}px)`;
+            });
+        });
+
+        /* -------------------------------------------
+           19. Enhanced CTA Buttons
+           ------------------------------------------- */
+        function enhanceCTAButtons() {
+            const buttons = document.querySelectorAll('.btn-premium, .btn-checkout, .node-action-btn');
+            buttons.forEach(btn => {
+                btn.classList.add('btn-cta-enhanced');
+            });
+        }
+        enhanceCTAButtons();
+
+        /* -------------------------------------------
+           20. Feature Card Interaction
+           ------------------------------------------- */
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'all 0.3s ease';
+            });
+        });
+
+        /* -------------------------------------------
+           21. Performance Bars Data Setup
+           ------------------------------------------- */
+        document.querySelectorAll('.perf-bar-fill').forEach((bar, index) => {
+            const perfValues = [95, 98, 92, 89];
+            bar.setAttribute('data-width', perfValues[index] || 90);
+        });
+        animatePerformanceBars();
+
+        /* -------------------------------------------
+           12. Enhanced Cursor Triggers for New Elements
+           ------------------------------------------- */
+        updateCursorTriggers();
+    </script>
+</body>
+</html>
