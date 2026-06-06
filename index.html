@@ -187,10 +187,14 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-layer h1 span {
-            background: linear-gradient(90deg, var(--accent), #7de272);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-layer h1 br {
+            display: block;
+            content: '';
+            margin: 0.18em 0 0.3em;
+        }
+
+        .hero-layer h1 {
+            white-space: pre-wrap;
         }
 
         .hero-layer p {
@@ -1206,6 +1210,9 @@
             letter-spacing: 0;
             opacity: 0;
             animation: textReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            background: linear-gradient(180deg, #ffffff 30%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .text-reveal-char.text-space {
@@ -1576,7 +1583,7 @@
             .logo { font-size: 22px; letter-spacing: -0.4px; }
             .hero-layer { min-height: auto; padding: 72px 18px 64px; }
             .hero-layer h1 { font-size: 42px; letter-spacing: -0.8px; line-height: 1.08; }
-            .hero-layer h1 span { display: inline-block; white-space: pre; }
+            .hero-layer h1 br { display: block; margin: 0.18em 0 0.3em; }
             .hero-layer p { font-size: 18px; max-width: 100%; margin-bottom: 32px; }
             .btn-premium { width: 100%; padding: 14px 20px; margin: 0 0 16px; }
             .hero-layer .btn-premium:last-child { margin-bottom: 0; }
@@ -1623,7 +1630,8 @@
     </header>
 
     <section class="hero-layer">
-        <h1>TGR.<span>RetailSolutions</span></h1>
+        <h1>TGR         </h1>
+        <h1>Retail Solutions</h1>
         <p>Affordable retail for everyone.</p>
         <a href="#gallery" class="btn-premium">View Our Production</a>
         <a href="#photo" class="btn-premium">View Our Gallery</a>
@@ -2496,6 +2504,11 @@
                 let delay = 0;
                 for (let i = 0; i < text.length; i++) {
                     const char = text[i];
+                    if (char === '\n' || char === '\r') {
+                        element.appendChild(document.createElement('br'));
+                        continue;
+                    }
+
                     const span = document.createElement('span');
                     span.classList.add('text-reveal-char');
                     if (char === ' ') {
@@ -2503,10 +2516,10 @@
                         span.textContent = '\u00A0';
                     } else {
                         span.textContent = char;
-                        span.style.animationDelay = (delay * 0.05) + 's';
-                        delay++;
                     }
+                    span.style.animationDelay = (delay * 0.05) + 's';
                     element.appendChild(span);
+                    if (char !== ' ') delay++;
                 }
             });
         }
